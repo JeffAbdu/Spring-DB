@@ -6,14 +6,9 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
 
-   <bean id="myDriverManagerDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-      <property name="driverClassName" value="${dbDriver}"/>
-      <property name="url" value="${dbUrl}"/> 
-      <property name="username" value="${dbUsername}" />
-      <property name="password" value="${dbPassword}" />
-   </bean>
+   <context:component-scan base-package="com.demo.model"/>
 
-   <context:property-placeholder location="src/main/java/com/demo/assets" />
+   <context:property-placeholder location="src/main/java/com/demo/assets/dbInfo.properties" />
    
    <bean id="myBasicDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
       <property name="driverClassName" value="${dbDriver}"/>
