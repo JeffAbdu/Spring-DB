@@ -15,6 +15,11 @@
 
    <context:property-placeholder location="src/main/java/com/demo/assets" />
    
-   
+   <bean id="myBasicDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+      <property name="driverClassName" value="${dbDriver}"/>
+      <property name="url" value="${dbUrl}"/> 
+      <property name="username" value="${dbUsername}" />
+      <property name="password" value="${dbPassword}" />      
+   </bean>
 
 </beans>
