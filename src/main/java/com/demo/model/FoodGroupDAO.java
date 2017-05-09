@@ -10,15 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 
-@Component("foodGroupDAO")
+@Repository("foodGroupDAO")
 public class FoodGroupDAO {
 
 	private JdbcTemplate myJdbcTemplate; 
 	
 	public List<FoodGroup> getFoodGroups(){
-		return myJdbcTemplate.query("select * from foodgroups", new RowMapper<FoodGroup>(){
+		return myJdbcTemplate.query("select * from foodgroups where name='Fruits' ", new RowMapper<FoodGroup>(){
 
 			public FoodGroup mapRow(ResultSet rs, int rowNum) throws SQLException {
 
