@@ -12,10 +12,10 @@ public class myApp {
 		ApplicationContext appContext = new FileSystemXmlApplicationContext("appContext.xml");
 		
 		FoodGroupDAO myFoodGroupDAO = appContext.getBean("foodGroupDAO", FoodGroupDAO.class);
+				
+		FoodGroup myFoodGroup = new FoodGroup(8,"aRandomGroupNameUpdated","aRandomGroupDescriptionUpdated");
 		
-		FoodGroup myFoodGroup = new FoodGroup("aRandomGroupName","aRandomGroupDescription");
-		
-		myFoodGroupDAO.create(myFoodGroup);
+		myFoodGroupDAO.update(myFoodGroup);
 		
 		((FileSystemXmlApplicationContext)appContext).close();
 		

@@ -113,4 +113,27 @@ public class FoodGroupDAO {
 		return res;		
 	}
 	
+	
+	 public Boolean update(FoodGroup fg){
+		 
+		 Boolean res = false;
+		 
+		 BeanPropertySqlParameterSource paramsBean = new BeanPropertySqlParameterSource(fg);
+		 
+		 String sql = "update foodGroups set name = :name, description= :description where id=:id";
+		 
+		 int numOfRowsAffected = myJdbcTemplate.update(sql, paramsBean);
+		 
+			if (numOfRowsAffected==1){
+				System.out.println("One row has been updated in table foodGroups successfully");
+				res=true;
+			}else{
+				System.out.println("There was a problem adding to table foodGroup!!");
+			}
+		 
+		 
+		 return res;
+	 }
+	
+	
 }
