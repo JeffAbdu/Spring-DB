@@ -19,7 +19,16 @@ import org.springframework.stereotype.Repository;
 public class FoodGroupDAO {
 
 	private NamedParameterJdbcTemplate myJdbcTemplate; 
+
+	@Autowired
+	public void setMyJdbcTemplate(DataSource ds) {
+		this.myJdbcTemplate = new NamedParameterJdbcTemplate(ds);
+	} 
 	
+	public NamedParameterJdbcTemplate getMyJdbcTemplate() {
+		return myJdbcTemplate;
+	}
+
 	public List<FoodGroup> getFoodGroups(){
 
 		MapSqlParameterSource myMap = new MapSqlParameterSource();
@@ -42,14 +51,25 @@ public class FoodGroupDAO {
 		});
 	}
 
-	public NamedParameterJdbcTemplate getMyJdbcTemplate() {
-		return myJdbcTemplate;
+	
+	public FoodGroup getFoodGroup(int id){
+		
+		MapSqlParameterSource myMap = new MapSqlParameterSource();
+		myMap.addValue("id", id);
+		
+		String sql = "select * from foodgroups where id = :id";
+		return myJdbcTemplate.queryForObject(sql, myMap, new RowMapper<FoodGroup>(){
+
+	 		public FoodGroup mapRow(ResultSet rs, int rowNum) throws SQLException {
+    
+	 			FoodGroup fg = new FoodGroup(); 
+                fg.setId(rs.getInt("id"));
+                fg.setName(rs.getString("name"));
+                fg.setDescription(rs.getString("description"));
+				return fg;
+				
+			}} );	
 	}
 
-	
-	@Autowired
-	public void setMyJdbcTemplate(DataSource ds) {
-		this.myJdbcTemplate = new NamedParameterJdbcTemplate(ds);
-	} 
 	
 }

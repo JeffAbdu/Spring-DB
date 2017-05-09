@@ -14,12 +14,12 @@ public class myApp {
 		
 		FoodGroupDAO myFoodGroupDAO = appContext.getBean("foodGroupDAO", FoodGroupDAO.class);
 		
-		List<FoodGroup> myFoodGroupList = myFoodGroupDAO.getFoodGroups();		
-				
-
-		for(FoodGroup fg: myFoodGroupList){
-			System.out.println(fg.talkAboutYourself());
-		}
+		FoodGroup meat = myFoodGroupDAO.getFoodGroup(4);		
+		System.out.println(meat.talkAboutYourself());
+		 
+		FoodGroup dairy = myFoodGroupDAO.getFoodGroup(5);		
+		System.out.println(dairy.talkAboutYourself());
+		
 		
 		((FileSystemXmlApplicationContext)appContext).close();
 		
