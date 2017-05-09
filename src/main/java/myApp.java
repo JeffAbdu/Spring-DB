@@ -15,7 +15,7 @@ public class myApp {
 				
 		FoodGroup myFoodGroup = new FoodGroup(8,"aRandomGroupNameUpdated","aRandomGroupDescriptionUpdated");
 		
-		myFoodGroupDAO.update(myFoodGroup);
+		myFoodGroupDAO.delete(8);
 		
 		((FileSystemXmlApplicationContext)appContext).close();
 		

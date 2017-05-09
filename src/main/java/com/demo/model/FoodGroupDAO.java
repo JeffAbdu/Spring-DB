@@ -136,4 +136,24 @@ public class FoodGroupDAO {
 	 }
 	
 	
+	 public Boolean delete(int id){
+		 
+		 Boolean res = false;
+		 
+		 MapSqlParameterSource params = new MapSqlParameterSource();
+		 params.addValue("id", id);
+		 
+		 String sql = "delete from foodGroups where id = :id";
+		 int numOfRowsAffected = myJdbcTemplate.update(sql, params);
+
+			if (numOfRowsAffected==1){
+				System.out.println("One row has been deleted from table foodGroups successfully");
+				res=true;
+			}else{
+				System.out.println("There was a problem adding to table foodGroup!!");
+			}
+			
+		 return res;
+	 }
+	 
 }
