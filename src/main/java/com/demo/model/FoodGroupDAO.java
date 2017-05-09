@@ -9,6 +9,8 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
@@ -16,10 +18,14 @@ import org.springframework.stereotype.Repository;
 @Repository("foodGroupDAO")
 public class FoodGroupDAO {
 
-	private JdbcTemplate myJdbcTemplate; 
+	private NamedParameterJdbcTemplate myJdbcTemplate; 
 	
 	public List<FoodGroup> getFoodGroups(){
-		return myJdbcTemplate.query("select * from foodgroups where name='Fruits' ", new RowMapper<FoodGroup>(){
+
+		MapSqlParameterSource myMap = new MapSqlParameterSource();
+		myMap.addValue("groupName", "Fruits");
+		
+		return myJdbcTemplate.query("select * from foodgroups where name=:groupName ", myMap, new RowMapper<FoodGroup>(){
 
 			public FoodGroup mapRow(ResultSet rs, int rowNum) throws SQLException {
 
@@ -36,13 +42,14 @@ public class FoodGroupDAO {
 		});
 	}
 
-	public JdbcTemplate getMyJdbcTemplate() {
+	public NamedParameterJdbcTemplate getMyJdbcTemplate() {
 		return myJdbcTemplate;
 	}
 
+	
 	@Autowired
 	public void setMyJdbcTemplate(DataSource ds) {
-		this.myJdbcTemplate = new JdbcTemplate(ds);
+		this.myJdbcTemplate = new NamedParameterJdbcTemplate(ds);
 	} 
 	
 }
