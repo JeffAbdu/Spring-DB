@@ -72,4 +72,23 @@ public class FoodGroupDAO {
 	}
 
 	
+	public Boolean addFoodGroup(String name, String description){
+		
+		Boolean res = false;
+		
+		MapSqlParameterSource params = new  MapSqlParameterSource();
+		params.addValue("name", name);
+		params.addValue("description", description);
+		
+		String sql = "insert into foodGroups (name, description) values (:name, :description)";
+		int numOfRowsAffected = myJdbcTemplate.update(sql, params);
+		
+		if (numOfRowsAffected==1){
+			System.out.println("One row added to table foodGroups successfully");
+			res=true;
+		}
+		return res;
+	}
+	
+	
 }

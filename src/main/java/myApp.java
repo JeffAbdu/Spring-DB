@@ -1,9 +1,6 @@
-import java.util.List;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
-
-import com.demo.model.FoodGroup;
 import com.demo.model.FoodGroupDAO;
 
 public class myApp {
@@ -14,12 +11,7 @@ public class myApp {
 		
 		FoodGroupDAO myFoodGroupDAO = appContext.getBean("foodGroupDAO", FoodGroupDAO.class);
 		
-		FoodGroup meat = myFoodGroupDAO.getFoodGroup(4);		
-		System.out.println(meat.talkAboutYourself());
-		 
-		FoodGroup dairy = myFoodGroupDAO.getFoodGroup(5);		
-		System.out.println(dairy.talkAboutYourself());
-		
+		myFoodGroupDAO.addFoodGroup("NotRealFoodGroup", "This is a not real food group");
 		
 		((FileSystemXmlApplicationContext)appContext).close();
 		
