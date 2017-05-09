@@ -1,6 +1,8 @@
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
+
+import com.demo.model.FoodGroup;
 import com.demo.model.FoodGroupDAO;
 
 public class myApp {
@@ -11,7 +13,9 @@ public class myApp {
 		
 		FoodGroupDAO myFoodGroupDAO = appContext.getBean("foodGroupDAO", FoodGroupDAO.class);
 		
-		myFoodGroupDAO.addFoodGroup("NotRealFoodGroup", "This is a not real food group");
+		FoodGroup myFoodGroup = new FoodGroup("aRandomGroupName","aRandomGroupDescription");
+		
+		myFoodGroupDAO.create(myFoodGroup);
 		
 		((FileSystemXmlApplicationContext)appContext).close();
 		

@@ -9,6 +9,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -90,5 +91,26 @@ public class FoodGroupDAO {
 		return res;
 	}
 	
+
+	// Same method as addFoodGroup, However, here Bean Properties is used as SQL Paramaters:
+	public Boolean create(FoodGroup fg){
+		
+		Boolean res = false;
+		
+		// Adding the following line: Spring sets up the params in this parameter source object based on the properties of my FoodGroup:
+		BeanPropertySqlParameterSource paramsBean = new BeanPropertySqlParameterSource(fg); 
+		
+		String sql = "insert into foodGroups (name, description) values (:name, :description)";
+		int numOfRowsAffected = myJdbcTemplate.update(sql, paramsBean);
+		
+		if (numOfRowsAffected==1){
+			System.out.println("One row added to table foodGroups successfully");
+			res=true;
+		}else{
+			System.out.println("There was a problem adding to table foodGroup!!");
+		}
+		
+		return res;		
+	}
 	
 }
