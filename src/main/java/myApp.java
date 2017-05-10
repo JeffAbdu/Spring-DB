@@ -23,11 +23,14 @@ public class myApp {
 			FoodGroup a = new FoodGroup("a","the description of a");
 			FoodGroup b = new FoodGroup("b","the description of b");
 			FoodGroup c = new FoodGroup("c","the description of c");
+			FoodGroup d = new FoodGroup("c","the description of c");
 			
             List<FoodGroup> myList = new ArrayList<FoodGroup>();
 			myList.add(a);
 			myList.add(b);
 			myList.add(c);
+			myList.add(d);
+
 			
 			int[] affectedRowsArray = myFoodGroupDAO.createFoodGroup(myList);
 			
