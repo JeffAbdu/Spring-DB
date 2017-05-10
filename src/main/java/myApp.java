@@ -32,6 +32,7 @@ public class myApp {
 			myList.add(d);
 
 			
+			
 			int[] affectedRowsArray = myFoodGroupDAO.createFoodGroup(myList);
 			
             for(int aR : affectedRowsArray){
