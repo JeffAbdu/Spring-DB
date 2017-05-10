@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
@@ -161,25 +162,28 @@ public class FoodGroupDAO {
 	 
 	 public int[]  createFoodGroup(List<FoodGroup> groups){
 		
-		ArrayList<MapSqlParameterSource> paramsArrayList = new ArrayList<MapSqlParameterSource>();
-		
-		for(FoodGroup g : groups){
-			
-			MapSqlParameterSource tempParam = new MapSqlParameterSource(); 
-			
-			tempParam.addValue("name", g.getName());
-			tempParam.addValue("description", g.getDescription());
-			
-			paramsArrayList.add(tempParam);
-		}
+//		ArrayList<MapSqlParameterSource> paramsArrayList = new ArrayList<MapSqlParameterSource>();
+//		
+//		for(FoodGroup g : groups){
+//			
+//			MapSqlParameterSource tempParam = new MapSqlParameterSource(); 
+//			
+//			tempParam.addValue("name", g.getName());
+//			tempParam.addValue("description", g.getDescription());
+//			
+//			paramsArrayList.add(tempParam);
+//		}
+//		 
+//		// batchParams must be an array not an arrayList to be accepted by batchUpdate()
+//		// Therefore: we would create "batchParams" as an array and transfer in it the content of the arrayList "paramsArrayList":
+//		 
+//		SqlParameterSource[] batchParams = new MapSqlParameterSource[paramsArrayList.size()];
+//		paramsArrayList.toArray(batchParams);
 		 
-		// batchParams must be an array not an arrayList to be accepted by batchUpdate()
-		// Therefore: we would create "batchParams" as an array and transfer in it the content of the arrayList "paramsArrayList":
 		 
-		SqlParameterSource[] batchParams = new MapSqlParameterSource[paramsArrayList.size()];
-		paramsArrayList.toArray(batchParams);
+		 // The following line (provided by Spring) replace the whole previous commented code:
+		 SqlParameterSource[] batchParams = SqlParameterSourceUtils.createBatch(groups.toArray());
 		 
-		
 		String sql = "insert into foodgroups(name, description) values (:name, :description)"; 
 		int[] numOfRowsAffectedArray = myJdbcTemplate.batchUpdate(sql, batchParams);
 		
