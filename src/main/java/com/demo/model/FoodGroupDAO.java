@@ -8,14 +8,13 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
-import org.springframework.stereotype.Component;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,10 +23,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class FoodGroupDAO {
 
 	private NamedParameterJdbcTemplate myJdbcTemplate; 
+	
+	private SimpleJdbcInsert insertFoodGroup;
 
 	@Autowired
 	public void setMyJdbcTemplate(DataSource ds) {
 		this.myJdbcTemplate = new NamedParameterJdbcTemplate(ds);
+		this.insertFoodGroup = new SimpleJdbcInsert(ds).withTableName("foodGroups");
 	} 
 	
 	public NamedParameterJdbcTemplate getMyJdbcTemplate() {
@@ -172,5 +174,19 @@ public class FoodGroupDAO {
 		return numOfRowsAffectedArray;
 		 
 	 }
+
+	public int create_si(FoodGroup fg){
+		
+		// Spring muches object properties with parameters:
+		SqlParameterSource params = new BeanPropertySqlParameterSource(fg);
+		
+		// Spring insert these parameters into table:
+		int numOfRowsAffected = insertFoodGroup.execute(params);
+		
+		return numOfRowsAffected;
+
+	}
+	 
+	 
 	 
 }

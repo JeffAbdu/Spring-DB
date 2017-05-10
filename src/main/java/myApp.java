@@ -20,24 +20,12 @@ public class myApp {
 
 			FoodGroupDAO myFoodGroupDAO = appContext.getBean("foodGroupDAO", FoodGroupDAO.class);
 
-			FoodGroup a = new FoodGroup("a","the description of a");
-			FoodGroup b = new FoodGroup("b","the description of b");
-			FoodGroup c = new FoodGroup("c","the description of c");
-			FoodGroup d = new FoodGroup("c","the description of c");
+			FoodGroup a = new FoodGroup("FoodSimpleInsert1","the description of a FoodSimpleInsert");
 			
-            List<FoodGroup> myList = new ArrayList<FoodGroup>();
-			myList.add(a);
-			myList.add(b);
-			myList.add(c);
-			myList.add(d);
-
+			int affectedRowsArray = myFoodGroupDAO.create_si(a);
 			
+			System.out.println("number of affected rows is: " + affectedRowsArray);
 			
-			int[] affectedRowsArray = myFoodGroupDAO.createFoodGroup(myList);
-			
-            for(int aR : affectedRowsArray){
-            	System.out.println("Updated rows: " + aR);
-            }
 
 		} catch (PermissionDeniedDataAccessException e) {
 
