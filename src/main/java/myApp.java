@@ -1,4 +1,5 @@
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.context.ApplicationContext;
@@ -19,11 +20,20 @@ public class myApp {
 
 			FoodGroupDAO myFoodGroupDAO = appContext.getBean("foodGroupDAO", FoodGroupDAO.class);
 
-			List<FoodGroup> myFoodGroupList = myFoodGroupDAO.getFoodGroups();
-
-			for (FoodGroup fg : myFoodGroupList) {
-				System.out.println(fg.talkAboutYourself());
-			}
+			FoodGroup a = new FoodGroup("a","the description of a");
+			FoodGroup b = new FoodGroup("b","the description of b");
+			FoodGroup c = new FoodGroup("c","the description of c");
+			
+            List<FoodGroup> myList = new ArrayList<FoodGroup>();
+			myList.add(a);
+			myList.add(b);
+			myList.add(c);
+			
+			int[] affectedRowsArray = myFoodGroupDAO.createFoodGroup(myList);
+			
+            for(int aR : affectedRowsArray){
+            	System.out.println("Updated rows: " + aR);
+            }
 
 		} catch (PermissionDeniedDataAccessException e) {
 
