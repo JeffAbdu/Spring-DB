@@ -29,7 +29,7 @@ public class FoodGroupDAO {
 	@Autowired
 	public void setMyJdbcTemplate(DataSource ds) {
 		this.myJdbcTemplate = new NamedParameterJdbcTemplate(ds);
-		this.insertFoodGroup = new SimpleJdbcInsert(ds).withTableName("foodGroups");
+		this.insertFoodGroup = new SimpleJdbcInsert(ds).withTableName("foodGroups").usingGeneratedKeyColumns("id");
 	} 
 	
 	public NamedParameterJdbcTemplate getMyJdbcTemplate() {
@@ -180,11 +180,11 @@ public class FoodGroupDAO {
 		// Spring muches object properties with parameters:
 		SqlParameterSource params = new BeanPropertySqlParameterSource(fg);
 		
-		// Spring insert these parameters into table:
-		int numOfRowsAffected = insertFoodGroup.execute(params);
+		// Spring insert these parameters into table and return the Id that is inserted:
+		Number insertID = insertFoodGroup.executeAndReturnKey(params);
 		
-		return numOfRowsAffected;
-
+		return insertID.intValue();
+		
 	}
 	 
 	 

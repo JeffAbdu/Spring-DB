@@ -22,9 +22,9 @@ public class myApp {
 
 			FoodGroup a = new FoodGroup("FoodSimpleInsert1","the description of a FoodSimpleInsert");
 			
-			int affectedRowsArray = myFoodGroupDAO.create_si(a);
+			int insertedID = myFoodGroupDAO.create_si(a);
 			
-			System.out.println("number of affected rows is: " + affectedRowsArray);
+			System.out.println("Record inserted with id: " + insertedID);
 			
 
 		} catch (PermissionDeniedDataAccessException e) {
