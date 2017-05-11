@@ -31,12 +31,14 @@ public class FoodGroupDAO {
 	
 	private SimpleJdbcCall procReadFoodGroup;
 
+	private JdbcTemplate jdbcTemplate; 
 
 	@Autowired
 	public void setMyJdbcTemplate(DataSource ds) {
 		this.myJdbcTemplate = new NamedParameterJdbcTemplate(ds);
 		this.insertFoodGroup = new SimpleJdbcInsert(ds).withTableName("foodGroups").usingGeneratedKeyColumns("id");
 		this.procReadFoodGroup = new SimpleJdbcCall(ds).withProcedureName("read_foodgroup_name_desc");
+		this.jdbcTemplate = new JdbcTemplate(ds);
 	} 
 	
 	public NamedParameterJdbcTemplate getMyJdbcTemplate() {
@@ -213,7 +215,31 @@ public class FoodGroupDAO {
 		
 	}
 	 
-	
+public void demoMethod(){
+		
+		// ensure integer returned:
+		String sql = "select count(*) from foodgroups";
+		Integer valueInt = jdbcTemplate.queryForObject(sql, Integer.class);
+	    System.out.println("Integer result: " + valueInt.intValue());
+	    
+	    // ensure String returned:
+	    sql = "select name from foodgroups where id='4'";
+	    String valueStr = jdbcTemplate.queryForObject(sql, String.class);
+	    System.out.println("String result: " + valueStr);
+	    
+	    // ensure domain object returned:
+	    sql = "select * from foodgroups where id='5'";
+	    FoodGroup myfoodGroup = jdbcTemplate.queryForObject(sql, new RowMapper<FoodGroup>(){
+
+			public FoodGroup mapRow(ResultSet rs, int rowNum) throws SQLException {
+				
+				return new FoodGroup(rs.getInt("id"), rs.getString("name"), rs.getString("description"));
+			}
+			
+	    });
+	    System.out.println("Domain object: " + myfoodGroup.talkAboutYourself());
+	    
+	}	
 	
 
 	
