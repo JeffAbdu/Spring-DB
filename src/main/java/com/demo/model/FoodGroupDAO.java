@@ -4,16 +4,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,11 +28,15 @@ public class FoodGroupDAO {
 	private NamedParameterJdbcTemplate myJdbcTemplate; 
 	
 	private SimpleJdbcInsert insertFoodGroup;
+	
+	private SimpleJdbcCall procReadFoodGroup;
+
 
 	@Autowired
 	public void setMyJdbcTemplate(DataSource ds) {
 		this.myJdbcTemplate = new NamedParameterJdbcTemplate(ds);
 		this.insertFoodGroup = new SimpleJdbcInsert(ds).withTableName("foodGroups").usingGeneratedKeyColumns("id");
+		this.procReadFoodGroup = new SimpleJdbcCall(ds).withProcedureName("read_foodgroup_name_desc");
 	} 
 	
 	public NamedParameterJdbcTemplate getMyJdbcTemplate() {
@@ -187,6 +194,27 @@ public class FoodGroupDAO {
 		
 	}
 	 
+	
+	public FoodGroup readFoodGroup(int groupId){
+		
+		MapSqlParameterSource params = new MapSqlParameterSource();
+		// "in_id" param muchs the input in_id in our stored procedure: 
+		params.addValue("in_id", groupId);
+		
+		Map<String, Object> outValues = procReadFoodGroup.execute(params);
+		
+		FoodGroup out = new FoodGroup();
+		// Extracting and setting info from the map <FiledName, FiledInfo>:
+		out.setName((String) outValues.get("group_name"));
+		out.setDescription((String) outValues.get("group_description"));
+		out.setId(groupId);
+		
+		return out;
+		
+	}
 	 
-	 
+	
+	
+
+	
 }

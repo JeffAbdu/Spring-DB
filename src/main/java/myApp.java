@@ -13,31 +13,18 @@ import com.demo.model.FoodGroupDAO;
 public class myApp {
 
 	public static void main(String[] args) {
-
 		ApplicationContext appContext = new FileSystemXmlApplicationContext("appContext.xml");
-
 		try {
-
 			FoodGroupDAO myFoodGroupDAO = appContext.getBean("foodGroupDAO", FoodGroupDAO.class);
-
-			FoodGroup a = new FoodGroup("FoodSimpleInsert1","the description of a FoodSimpleInsert");
-			
-			int insertedID = myFoodGroupDAO.create_si(a);
-			
-			System.out.println("Record inserted with id: " + insertedID);
-			
-
+			FoodGroup myFoodGroup = myFoodGroupDAO.readFoodGroup(1);
+			System.out.println(myFoodGroup.talkAboutYourself());			
 		} catch (PermissionDeniedDataAccessException e) {
-
 			// Handle as you see fit
-
 		} catch (DataAccessException e) {
 			System.out.println(e.getMessage());
 			System.out.println(e.getClass());
 		}
-
 		((FileSystemXmlApplicationContext) appContext).close();
-
 	}
 
 }
