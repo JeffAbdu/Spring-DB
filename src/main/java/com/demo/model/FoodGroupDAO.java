@@ -22,7 +22,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 
-@Repository("foodGroupDAO")
+//@Repository("foodGroupDAO")
 public class FoodGroupDAO {
 
 	private NamedParameterJdbcTemplate myJdbcTemplate; 
@@ -33,7 +33,7 @@ public class FoodGroupDAO {
 
 	private JdbcTemplate jdbcTemplate; 
 
-	@Autowired
+	//@Autowired
 	public void setMyJdbcTemplate(DataSource ds) {
 		this.myJdbcTemplate = new NamedParameterJdbcTemplate(ds);
 		this.insertFoodGroup = new SimpleJdbcInsert(ds).withTableName("foodGroups").usingGeneratedKeyColumns("id");
@@ -47,10 +47,10 @@ public class FoodGroupDAO {
 
 	public List<FoodGroup> getFoodGroups(){
 
-		MapSqlParameterSource myMap = new MapSqlParameterSource();
-		myMap.addValue("groupName", "Fruits");
+	//	MapSqlParameterSource myMap = new MapSqlParameterSource();
+	//	myMap.addValue("groupName", "Fruits");
 		
-		return myJdbcTemplate.query("select * from foodgroups where name=:groupName ", myMap, new RowMapper<FoodGroup>(){
+		return myJdbcTemplate.query("select * from foodgroups", new RowMapper<FoodGroup>(){
 
 			public FoodGroup mapRow(ResultSet rs, int rowNum) throws SQLException {
 

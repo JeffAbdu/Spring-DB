@@ -25,6 +25,10 @@
    </bean>
 
    <tx:annotation-driven />
-   
+
+
+   <bean id="foodGroupDAO" class="com.demo.model.FoodGroupDAO">
+      <property name="myJdbcTemplate" ref="myBasicDataSource"/>
+   </bean>   
   
 </beans>

@@ -20,8 +20,13 @@ public class myApp {
 		
 			FoodGroupDAO myFoodGroupDAO = appContext.getBean("foodGroupDAO", FoodGroupDAO.class);
             
-			myFoodGroupDAO.demoMethod();
+			List<FoodGroup> myList= myFoodGroupDAO.getFoodGroups();
 		
+			for(FoodGroup gf :myList){
+				System.out.println(gf.talkAboutYourself());
+			}
+			
+			
 		} catch (PermissionDeniedDataAccessException e) {
 		
 			// Handle as you see fit
